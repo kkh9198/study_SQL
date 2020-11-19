@@ -1,1 +1,2 @@
-# study_SQL
+# SQL 스터디 회의록
+# SQL 스터디 코드
