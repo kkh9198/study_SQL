@@ -1,0 +1,63 @@
+create table emp(
+emp_no varchar2(30) ,
+emp_name varchar2(80) not null,
+salary  number null,
+hire_date date null
+);
+alter table emp add constraints emp_pk primary key(emp_no);
+desc emp;
+
+create table country_test (
+country_id number not null,
+country_name varchar2(100) not null
+);
+alter table country_test add CONSTRAINTs country_test_pk primary key(country_id);
+desc country_test;
+alter table country_test add CONSTRAINTs country_test_pk primary key(country_id);
+--1-5
+alter table country_test add region_id number null;
+--1-6
+alter table country_test modify region_id not null;
+--1-7
+drop table country_test;
+
+select*from employees;
+--2-6
+select department_id from employees where first_name='David' and salary>=6000;
+select location_id from departments where department_id =80;
+select city from locations where location_id =2500;
+
+select*from locations;
+select*from departments;
+
+--3-1
+select * from employees;
+select * from employees where manager_id is null;
+
+--3-2
+select t.*,
+case when commission_pct is not null then salary+(salary * commission_pct)
+else salary
+end as salary_new
+from employees t;
+--3-4
+select * from locations;
+select * from locations where city like 'S%' order by city desc;
+
+--3-5
+select * from locations;
+select postal_code||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id ÁÖ¼Ò 
+from locations where country_id='US';
+
+--3-6
+select * from locations;
+select postal_code||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id ÁÖ¼Ò 
+from locations where country_id='UK' and postal_code is not null;
+
+--3-7
+select 
+case when country_id = 'UK' and postal_code is not null then postal_code||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id
+    when country_id = 'UK' and postal_code is null then 99999||'-'||street_address||'-'||city||'-'||state_province||'-'||country_id
+else ''
+end ÁÖ¼Ò 
+from locations;
