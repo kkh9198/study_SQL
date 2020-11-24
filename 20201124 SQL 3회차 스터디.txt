@@ -1,0 +1,52 @@
+--1
+select upper('홍길동')
+from dual;
+--UPPER에 한글은 영향을 받지 않는다. 
+--2
+select substr('Is this real life? Is this just fantasy?',-8)
+from dual; 
+--3
+select TO_CHAR(LAST_DAY(SYSDATE)+1,'YYYY-MM-DD') 
+from dual;
+--4
+SELECT MONTHS_BETWEEN(SYSDATE,HIRE_DATE)
+FROM EMPLOYEES
+WHERE EMPLOYEE_ID <= 110;
+--5
+SELECT REPLACE(PHONE_NUMBER,'.','-')
+FROM EMPLOYEES;
+--6
+SELECT SUBSTR(STREET_ADDRESS,INSTR(STREET_ADDRESS,' ',1)+1)
+FROM LOCATIONS 
+WHERE LOCATION_ID <= 2400;
+
+--6.1
+select ltrim(street_address,'0,1,2,3,4,5,6,7,8,9,-, ') street_address2
+from locations 
+where location_id <= 2400;
+
+--1
+SELECT TO_CHAR(LAST_DAY(TO_DATE('2019-08-20','YYYY-MM-DD')),'DAY')
+FROM DUAL;
+--2
+SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, COMMISSION_PCT
+,NVL2(COMMISSION_PCT,SALARY+(SALARY*COMMISSION_PCT),SALARY) as salary_real
+FROM EMPLOYEES;
+
+select  employee_id, first_name, last_name, salary, commission_pct,
+        nvl(salary+(salary*commission_pct),salary) as real_salary
+from employees;
+
+--3
+SELECT EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, COMMISSION_PCT
+,DECODE(COMMISSION_PCT, NULL ,SALARY,SALARY+ (SALARY*COMMISSION_PCT) ) as salary_real
+FROM EMPLOYEES;
+
+--4
+SELECT (2019*365)+TO_NUMBER(TO_CHAR(TO_DATE('2020-10-31','YYYY-MM-DD'),'DDD'))
+FROM DUAL;
+SELECT TO_CHAR(TO_DATE('2020-10-31','YYYY-MM-DD'),'YYYY')-1 
+FROM DUAL;
+--1
+SELECT ROUND(1000000000000/(TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')-1)*365)+(TO_NUMBER(TO_CHAR(SYSDATE,'DDD'))),0)
+FROM DUAL;
