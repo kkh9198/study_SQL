@@ -1,0 +1,22 @@
+select a.months, a.continent, a.country, a.new_cases,
+        sum(a.new_cases) over(partition by a.months, a.continent) continet_cases,
+        round(a.new_cases/sum(a.new_cases) over(partition by a.months, a.continent) * 100,2) rates
+from (select to_char(dates,'YYYY-MM') months, continent, country, nvl(sum(new_cases),0) new_cases
+        from covid19
+        where new_cases != 0 and country != 'World'
+        group by to_char(dates,'YYYY-MM'), continent, country) a
+order by 1,2,4 desc;
+
+--2안
+select a.months, a.continent, a.country, a.new_cases, b.continent_cases
+        --,round(a.new_cases/b.contitnent_cases * 100,2) rates
+from (select to_char(dates,'YYYY-MM') months, continent, country, nvl(sum(new_cases),0) new_cases
+        from covid19
+        group by to_char(dates,'YYYY-MM'), continent, country) a,
+     (select to_char(dates,'YYYY-MM') months, continent, nvl(sum(new_cases),0) continent_cases
+        from covid19
+        group by to_char(dates,'YYYY-MM'), continent) b
+  where a.months=b.months
+    and a.continent=b.continent
+    and new_cases > 0
+order by 1,2,4 desc;
