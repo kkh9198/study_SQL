@@ -1,0 +1,21 @@
+--1
+insert into departments (department_id, department_name, manager_id, location_id)
+    select 500, 'IT2', manager_id, location_id
+    from departments
+    where department_name = 'IT';
+    
+--2
+update departments
+set manager_id =
+case when manager_id is null then 100 else 110 end
+where department_id >= 280;
+--3
+delete departments
+where department_id >= 280;
+
+--4
+create table covid19_kor as
+select *from covid19
+where iso_code='KOR'
+and dates between to_date('2020-05-01','yyyy-mm-dd') and
+to_date('2020-10-31','yyyy-mm-dd');
